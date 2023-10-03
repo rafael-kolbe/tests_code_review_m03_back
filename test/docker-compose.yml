@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  express-api:
+    build: .
+    image: express-api-image
+    container_name: express-api
+    ports:
+      - 3000:3000
+    networks:
+      - testing-network
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-db
+    ports:
+      - 5000:5432
+    networks:
+      - testing-network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dindin
+    volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+
+  rust-tester:
+    image: shiraorisuki/code_review_m03_back:latest
+    container_name: rust-tester
+    ports:
+      - 8000:8000
+    networks:
+      - testing-network
+    depends_on:
+      - postgres-db
+      - express-api
+
+networks:
+  testing-network:
+    driver: bridge
