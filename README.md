@@ -15,6 +15,6 @@ const pool = new Pool({
 
 - Mova o `dump.sql` para a raiz do repositório do aluno, renomeie o arquivo se precisar.
 
-- Mude a porta do servidor express para 3000
+- Mude a porta do servidor express para `3000`.
 
 - Rode `docker-compose up --build` no terminal dentro da raíz do repositório do aluno.
